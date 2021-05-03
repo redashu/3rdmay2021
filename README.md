@@ -387,6 +387,158 @@ nihapython                 hello     64ea260c052c   27 seconds ago   354MB
 
 ```
 
+### creating container from above build image
+
+```
+❯ docker  run  -itd  --name ashucc11  ashupython:orclv1
+af4604c840ce8d48548ef1fd8df2b05a6f688e0ad10493c231bbb1c5dd00a2d3
+❯ docker  ps
+CONTAINER ID   IMAGE                      COMMAND                  CREATED             STATUS             PORTS                    NAMES
+af4604c840ce   ashupython:orclv1          "python3 hello.py"       14 seconds ago      Up 5 seconds                                ashucc11
+
+```
+
+
+## Day1 History 
+
+```
+ docker  version 
+10008  docker  context   ls
+10009  docker  context  create  ashuDE   --docker  "host=tcp://54.235.252.191:2375"
+10010  docker  context   ls
+10011  docker  context   use  ashuDE 
+10012  docker  context   ls
+10013  history
+10014  docker  context   ls
+10015  docker version 
+10016  history
+10017  docker version 
+10018  history
+10019  docker  context ls
+10020  docker   images
+10021  docker  context  ls
+10022  docker   images
+10023  docker  rmi 6dbb9cc54074 3ba8f2ff0727 -f
+10024  docker  rm 3ba8f2ff0727 -f
+10025  docker ps -a
+10026  docker rm $(docker ps -aq) -f
+10027  docker  rmi 6dbb9cc54074 3ba8f2ff0727 -f
+10028  docker  images
+10029  docker  search   java
+10030  docker  search   mysql
+10031  docker  search   oraclelinux
+10032  history
+10033  docker  search   ashutoshh
+10034  docker  search  dockerashu
+10035  history
+10036  docker  images
+10037  docker  pull  oraclelinux:8.3 
+10038  docker images
+10039  docker pull mysql
+10040  docker  images
+10041  docker  info 
+10042* ssh -i Downloads/macdocker.pem ec2-user@54.235.252.191
+10043  docker  images
+10044  docker info 
+10045  history
+10046  docker  images
+10047  docker  run  --name  ashuc1   alpine:latest ping 127.0.0.1 
+10048  docker  run  --name  ashuc2   alpine:latest ping 127.0.0.1 
+10049  clear
+10050  docker  ps
+10051  docker  ps -a
+10052  history
+10053  docker  images
+10054  docker  run  --name ashuc3  oraclelinux:8.3  
+10055  docker  ps
+10056  docker  ps   -a
+10057  docker  ps
+10058  history
+10059  docker  images
+10060  docker  run -itd  --name  ashuc4  alpine  
+10061  docker  ps
+10062  docker  run -itd  --name  ashuc5  alpine  ping google.com 
+10063  docker  ps
+10064  docker  run -it  --name  ashuc6  alpine  ping google.com 
+10065  history
+10066  docker  ps
+10067  docker  context  ls
+10068* ssh  hatim@54.235.252.191 
+10069* history
+10070  docker  ps
+10071  docker  logs  ashuc5 
+10072  history
+10073  docker logs  -f  ashuc5 
+10074  history
+10075  docker  ps
+10076  docker  stop   ashuc5
+10077  docker  ps
+10078  history
+10079  docker  ps
+10080  history
+10081  docker  ps
+10082  docker  start  ashuc5
+10083  docker  ps
+10084  history
+10085  docker  ps
+10086  docker  kill  ashuc5
+10087  docker  rm   ashuc5
+10088  docker  ps  -a
+10089  history
+10090  docker  ps 
+10091  docker  ps  -a
+10092  docker  ps  
+10093  docker  ps -q
+10094  docker  ps -a
+10095  docker  ps -aq
+10096  docker  rm   $(docker  ps -aq)
+10097  history
+10098  ❯ docker  rm   $(docker  ps -aq)\nad0267de41e5\n7b09192ba6b7\n0587817d3bed\n40ec94f6a304\n65e995ade751\n1d8f3ecd8ddb\nb40bb9cad879\n001c8cf61038\n53699470e90d\n1a7667b4a8c9\n153dfca1b50e\na6232a81b77b\n679732f74e28\n06136787e37b\nhistory
+10099  docker  ps
+10100  docker  ps -a
+10101  docker run -itd  --name x1  alpine ping  google.com 
+10102  docker  ps
+10103  docker  exec  x1   date 
+10104  docker  exec  x1   cal 
+10105  docker  exec  -it x1   sh  
+10106  history
+10107  docker run -itd --name  webui  -v  /var/run/docker.sock:/var/run/docker.sock -p 1234:9000 portainer/portainer 
+10108  docker  ps
+10109  docker  images
+10110  docker  ps
+10111  history
+10112  cd  Desktop/mycodes
+10113  ls
+10114  cd  pythoncode
+10115  ls
+10116* cd  pythoncode
+10117* ls
+10118* docker  images
+10119  docker  build  -t  ashupython:orclv1 . 
+10120  docker  context  use default 
+10121  docker  build  -t  ashupython:orclv1 . 
+10122  docker  context  use ashuDE
+10123  docker  build  -t  ashupython:orclv1 . 
+10124  docker  images
+10125  history
+10126  docker  images
+10127  history
+10128  docker  images
+10129  docker  run  -itd  --name ashucc11  ashupython:orclv1   
+10130  docker  ps
+10131  history
+10132  docker  logs  -f   ashucc11
+10133  history
+10134  docker ps 
+10135  docker  exec -it  ashucc11  bash 
+10136  history
+10137  docker  exec -it  ashucc11  bash 
+10138  ls
+10139  docker  cp Dockerfile   ashucc11:/
+10140  docker  exec -it  ashucc11  bash 
+
+```
+
 
 
 
