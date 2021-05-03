@@ -93,4 +93,46 @@ May 03 06:34:03 ip-172-3
 
 <img src="de.png">
 
+## Docker client options 
+
+<img src="dokcercli.png">
+
+## Using docker cli to send request 
+
+### check docker engine connection 
+
+```
+❯ docker  context   ls
+NAME                TYPE                DESCRIPTION                               DOCKER ENDPOINT               KUBERNETES ENDPOINT                    ORCHESTRATOR
+default *           moby                Current DOCKER_HOST based configuration   unix:///var/run/docker.sock   https://54.227.223.108:6443 (ashuns)   swarm
+
+
+```
+
+### creating context 
+
+```
+❯ docker  context  create  ashuDE   --docker  "host=tcp://54.235.252.191:2375"
+ashuDE
+Successfully created context "ashuDE"
+❯ docker  context   ls
+NAME                TYPE                DESCRIPTION                               DOCKER ENDPOINT               KUBERNETES ENDPOINT                    ORCHESTRATOR
+ashuDE              moby                                                          tcp://54.235.252.191:2375                                            
+default *           moby                Current DOCKER_HOST based configuration   unix:///var/run/docker.sock   https://54.227.223.108:6443 (ashuns)   swarm
+
+```
+
+### change / switch context 
+
+```
+❯ docker  context   use  ashuDE
+ashuDE
+❯ docker  context   ls
+NAME                TYPE                DESCRIPTION                               DOCKER ENDPOINT               KUBERNETES ENDPOINT                    ORCHESTRATOR
+ashuDE *            moby                                                          tcp://54.235.252.191:2375                                            
+default             moby                Current DOCKER_HOST based configuration   unix:///var/run/docker.sock   https://54.227.223.108:6443 (ashuns)   swarm
+
+
+```
+
 
