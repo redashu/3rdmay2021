@@ -336,6 +336,57 @@ Linux
 
 ```
 
+# application containerization 
+
+## Dockerfile to build  new docker images
+
+<img src="build1.png">
+
+## We are going to Vscode to write code and dockerfile
+
+[vscode](https://code.visualstudio.com/download)
+
+
+## Dockerfile for python code
+
+<img src="pyfile.png">
+
+### buidling docker image 
+
+```
+❯ docker  build  -t  ashupython:orclv1 .
+Sending build context to Docker daemon  3.584kB
+Step 1/7 : FROM oraclelinux:8.3
+ ---> 816d99f0bbe8
+Step 2/7 : MAINTAINER  ashutoshh@linux.com , 9509957594
+ ---> Using cache
+ ---> fe01aed5ea12
+Step 3/7 : RUN  dnf install python3 -y
+ ---> Using cache
+ ---> 472a2181b947
+Step 4/7 : RUN mkdir  /pycode
+ ---> Running in b4e7db42c1ed
+Removing intermediate container b4e7db42c1ed
+ ---> 3bbf15b0511a
+Step 5/7 : COPY  hello.py  /pycode/hello.py
+ ---> 1c12d03f9ee6
+Step 6/7 : WORKDIR  /pycode
+ ---> Running in ac672d3aec62
+Removing intermediate container ac672d3aec62
+ ---> 973e51ea7e1b
+Step 7/7 : CMD  ["python3","hello.py"]
+ ---> Running in 3ad680449daf
+Removing intermediate container 3ad680449daf
+ ---> 8fa206361c87
+Successfully built 8fa206361c87
+Successfully tagged ashupython:orclv1
+❯ docker  images
+REPOSITORY                 TAG       IMAGE ID       CREATED          SIZE
+ashupython                 orclv1    8fa206361c87   10 seconds ago   354MB
+nihapython                 hello     64ea260c052c   27 seconds ago   354MB
+
+```
+
 
 
 
