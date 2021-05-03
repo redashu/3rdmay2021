@@ -304,6 +304,38 @@ a6232a81b77b
 ```
 
 
+### login into container as child process
+
+```
+❯ docker run -itd  --name x1  alpine ping  google.com
+66a16850d2f8c866cd1de029feddfb0116628e99b1668a2c6968d9cc60e278b0
+❯ docker  ps
+CONTAINER ID   IMAGE     COMMAND             CREATED         STATUS         PORTS     NAMES
+66a16850d2f8   alpine    "ping google.com"   9 seconds ago   Up 3 seconds             x1
+❯ 
+❯ 
+❯ docker  exec  x1   date
+Mon May  3 09:53:01 UTC 2021
+❯ docker  exec  x1   cal
+      May 2021
+Su Mo Tu We Th Fr Sa
+                   1
+ 2  3  4  5  6  7  8
+ 9 10 11 12 13 14 15
+16 17 18 19 20 21 22
+23 24 25 26 27 28 29
+30 31
+❯ docker  exec  -it x1   sh
+/ # 
+/ # 
+/ # whoami
+root
+/ # uname
+Linux
+/ # exit
+
+```
+
 
 
 
