@@ -179,6 +179,132 @@ dockerashu/microsoftapp                      0
 dockerashu/ckad                  
 
 ```
+## Downloading docker images into docker engine machine from docker hub 
+
+```
+❯ docker  images
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+openjdk      latest    9991202d6ad6   12 days ago   467MB
+alpine       latest    6dbb9cc54074   2 weeks ago   5.61MB
+❯ docker  pull  oraclelinux:8.3
+8.3: Pulling from library/oraclelinux
+dd34f38d274c: Pull complete 
+Digest: sha256:af3182ee6c1e56f18fc1fecaf638da57d7c47233862e5c32f5ad723a6ab4c6db
+Status: Downloaded newer image for oraclelinux:8.3
+docker.io/library/oraclelinux:8.3
+❯ docker images
+REPOSITORY    TAG       IMAGE ID       CREATED       SIZE
+openjdk       latest    9991202d6ad6   12 days ago   467MB
+oraclelinux   8.3       816d99f0bbe8   2 weeks ago   224MB
+alpine        latest    6dbb9cc54074   2 weeks ago   5.61MB
+
+```
+
+## docker engine store all data in a directory 
+
+<img src="dockerdata.png">
+
+## ON docker engine server side image stores at 
+
+```
+[root@ip-172-31-6-70 ~]# cd /var/lib/docker/
+[root@ip-172-31-6-70 docker]# ls
+buildkit  containers  image
+
+```
+
+## importance of process (parent process) in container 
+
+<img src="pp.png">
+
+## creating first container 
+
+<img src="create.png">
+
+## list of running containers
+
+```
+❯ docker  ps
+CONTAINER ID   IMAGE           COMMAND            CREATED              STATUS              PORTS     NAMES
+941cdb3153a6   alpine:latest   "ping 127.0.0.1"   About a minute ago   Up About a minute             Engine2
+3ba77a21e3bd   alpine:latest   "ping 127.0.0.1"   About a minute ago   Up About a minute             ramanc1
+6b9dedd79882   alpine:latest   "ping 127.0.0.1"   About a minute ago   Up About a minute             ashuc1
+
+```
+
+## best practise to create container 
+
+```
+❯ docker  run -itd  --name  ashuc4  alpine
+0ba4af4979f13e7585dcc8911f5ee84cdcc7aed3522aa6e40117fa724286feff
+❯ docker  ps
+CONTAINER ID   IMAGE           COMMAND            CREATED              STATUS              PORTS     NAMES
+0ba4af4979f1   alpine          "/bin/sh"          8 seconds ago        Up 3 seconds                  ashuc4
+b26c41f2d100   alpine:latest   "ping 127.0.0.1"   About a minute ago   Up About a minute             hello
+b0c808c5c846   alpine:latest   "ping 127.0.0.1"   3 minutes ago        Up 3 minutes                  Testc1
+4379d5041e2f   alpine          "ping 127.0.0.1"   4 minutes ago        Up 4 minutes                  namanc1
+19f9fe3a2715   alpine:latest   "ping 127.0.0.1"   6 minutes ago        Up 6 minutes                  frosty_matsumoto
+f36e636c0a74   alpine:latest   "ping 127.0.0.1"   6 minutes ago        Up 6 minutes                  helloc2
+63bb528cf111   alpine:latest   "ping 127.0.0.1"   8 minutes ago        Up 8 minutes                  richik1
+667658220f94   alpine          "ping 127.0.0.1"   8 minutes ago        Up 8 minutes                  hellodocker
+❯ docker  run -itd  --name  ashuc5  alpine  ping google.com
+601f71605b5b8235dc79a8862e238cdf9085c17e869c061b1056bf6ac6103153
+❯ docker  ps
+CONTAINER ID   IMAGE           COMMAND             CREATED          STATUS          PORTS     NAMES
+601f71605b5b   alpine          "ping google.com"   7 seconds ago    Up 3 seconds              ashuc5
+0ba4af4979f1   alpine          "/bin/sh"           42 seconds ago   Up 37 seconds             ashuc4
+
+```
+
+## checking output of a running container process
+
+```
+ docker  logs  ashuc5 
+ 
+```
+
+### live output 
+
+```
+ docker  logs  -f ashuc5
+```
+
+
+### stop a running container 
+
+```
+docker  stop   ashuc5
+```
+
+### starting a stopped container 
+
+```
+ docker  start  ashuc5
+```
+
+### tip to remove all non running containers 
+
+```
+❯ docker  rm   $(docker  ps -aq)
+ad0267de41e5
+7b09192ba6b7
+0587817d3bed
+40ec94f6a304
+65e995ade751
+1d8f3ecd8ddb
+b40bb9cad879
+001c8cf61038
+53699470e90d
+1a7667b4a8c9
+153dfca1b50e
+a6232a81b77b
+679732f74e28
+06136787e37b
+
+```
+
+
+
 
 
 
