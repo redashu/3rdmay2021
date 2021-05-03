@@ -14,4 +14,13 @@
 
 <img src="cre.png">
 
+## what is container 
+
+<img src="cont.png">
+
+## understand  kernel 
+
+<img src="kernel.png">
+
+
 
