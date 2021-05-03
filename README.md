@@ -135,4 +135,50 @@ default             moby                Current DOCKER_HOST based configuration 
 
 ```
 
+## Docker summary 
+
+<img src="summary.png">
+
+## Containerization process steps
+
+### need to create docker images 
+
+### from those docker images we need to create containers
+
+<img src="contcreate.png">
+
+## TO download docker images we can use Docker HUb as registry 
+
+<img src="reg.png">
+
+## Docker client side operations 
+
+### searching image on docker hub 
+
+```
+0029  docker  search   java
+10030  docker  search   mysql
+10031  docker  search   oraclelinux
+❯ docker  search   ashutoshh
+NAME                           DESCRIPTION   STARS     OFFICIAL   AUTOMATED
+ashutoshh/cent6ssh_http                      1                    
+ashutoshh/centos6ssh                         0                    
+ashutoshh/24dec2014                          0                    
+ashutoshh/apache2.4                          0                    
+ashutoshh/yureka                             0                    
+ashutoshh/centos7systemd                     0                    
+dockerashu/ashutoshheyfebapp                 0                    
+ashutoshh/dd2527ea18bd                       0                    
+ashutoshh/ocphp                              0                    
+dockerashu/ashutoshh                         0                    
+❯ docker  search  dockerashu
+NAME                           DESCRIPTION   STARS     OFFICIAL   AUTOMATED
+dockerashu/oracleweb                         0                    
+dockerashu/nginx                             0                    
+dockerashu/microsoftapp                      0                    
+dockerashu/ckad                  
+
+```
+
+
 
