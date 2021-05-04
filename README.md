@@ -77,5 +77,26 @@ Options:
       --restart string             Restart policy to apply when a container exits
       
   ```
-  
+ 
+ ## Some info about installer 
+ 
+ <img src="installer.png">
+ 
+ ### building python3 based image using debian linux 
+ 
+ ```
+ ❯ docker  build  -t   ashudebpy:v001 -f  debain.dockerfile  .
+Sending build context to Docker daemon  4.608kB
+Step 1/7 : FROM debian
+ ---> 0d587dfbc4f4
+Step 2/7 : MAINTAINER ashutoshh@linux.com
+ ---> Running in 80968f047851
+Removing intermediate container 80968f047851
+ ---> 4c569ed8f21e
+Step 3/7 : RUN  apt  update &&   apt install python3 -y
+ ---> Running in de72b1760eb7
+
+```
+
+
   
