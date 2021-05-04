@@ -203,6 +203,99 @@ v111: digest: sha256:6f0e39c022207827bd4cf953b51daed4f7e790f6836f79d98958ba86688
 
 ```
 
+# Docker Networking 
+
+## getting started 
+
+<img src="dnet1.png">
+
+## creating container and checking ip address 
+
+```
+ docker  run -itd --name ashuc1  alpine ping fb.com 
+docker  inspect  ashuc1  -f '{{.NetworkSettings.IPAddress}}'
+172.17.0.2
+
+```
+
+### access container 
+
+```
+❯ docker  exec -it  ashuc1  sh
+/ # 
+/ # 
+/ # ifconfig 
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
+          inet addr:172.17.0.2  Bcast:172.17.255.255  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:368 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:350 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:34164 (33.3 KiB)  TX bytes:32932 (32.1 KiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # ping  172.17.0.3
+PING 172.17.0.3 (172.17.0.3): 56 data bytes
+64 bytes from 172.17.0.3: seq=0 ttl=255 time=0.137 ms
+64 bytes from 172.17.0.3: seq=1 ttl=255 time=0.078 ms
+64 bytes from 172.17.0.3: seq=2 ttl=255 time=0.078 ms
+^C
+--- 172.17.0.3 ping statistics ---
+
+```
+
+### NAT in docker networking 
+
+<img src="nat.png">
+
+## port forwarding will be used in docker host to connect from external source to container app
+
+<img src="portf.png">
+
+## webapplication and web servers 
+
+<img src="webs.png">
+
+## choosing webserver 
+
+<img src="chooseweb.png">
+
+### apache httpd dockerfile
+
+<img src="httpd.png">
+
+### image got build
+
+```
+❯ docker build  -t  ashuwebapp:oraclev1 .
+Sending build context to Docker daemon  65.54kB
+Step 1/6 : FROM oraclelinux:8.3
+ ---> 816d99f0bbe8
+Step 2/6 : MAINTAINER ashutoshh@linux.com
+ ---> Using cache
+ ---> c0f636b572b7
+Step 3/6 : RUN dnf install httpd -y
+ ---> Using cache
+ ---> a958c510ced5
+Step 4/6 : COPY ashu.html  /var/www/html/index.html
+ ---> 3ae104383e9c
+Step 5/6 : COPY  docker.png  /var/www/html/docker.png
+ ---> d8c255d754b3
+Step 6/6 : ENTRYPOINT httpd -DFOREGROUND
+ ---> Running in 31bcb8069d02
+Removing intermediate container 31bcb8069d02
+ ---> 9714719ae336
+Successfully built 9714719ae336
+Successfully tagged ashuwebapp:oraclev1
+
+```
 
 
 
