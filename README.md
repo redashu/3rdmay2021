@@ -297,6 +297,10 @@ Successfully tagged ashuwebapp:oraclev1
 
 ```
 
+### Deploying web application in container with host port forwarding rule 
+
+<img src="portf2.png">
+
 
 
   
