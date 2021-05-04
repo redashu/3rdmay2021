@@ -98,5 +98,112 @@ Step 3/7 : RUN  apt  update &&   apt install python3 -y
 
 ```
 
+## Creating container 
+
+```
+ docker  run -itd --name ashucx1  1ff5866381f6 
+ 
+```
+
+### Dockerfile example of java code 
+
+<img src="javadfile.png">
+
+###  building image
+
+```
+❯ ls
+Dockerfile hello.java
+❯ docker  build  -t  ashujava:vv1  .
+Sending build context to Docker daemon  3.072kB
+Step 1/7 : FROM openjdk
+ ---> 9991202d6ad6
+Step 2/7 : MAINTAINER  ashutoshh@linux.com
+ ---> Using cache
+ ---> dc6a3f5cd577
+Step 3/7 : RUN mkdir /code
+ ---> Running in 6a48c95f42fe
+Removing intermediate container 6a48c95f42fe
+ ---> dfc173fce260
+Step 4/7 : ADD hello.java  /code/hello.java
+ ---> 50e00afde37a
+Step 5/7 : WORKDIR /code
+ ---> Running in 17c22d726ca4
+Removing intermediate container 17c22d726ca4
+ ---> 64eada987913
+Step 6/7 : RUN  javac  hello.java
+ ---> Running in 9e35b0748580
+Removing intermediate container 9e35b0748580
+ ---> 23796735ae49
+Step 7/7 : CMD ["java","myclass"]
+ ---> Running in 54d56d5254b5
+Removing intermediate container 54d56d5254b5
+ ---> 8547f089e5a2
+Successfully built 8547f089e5a2
+Successfully tagged ashujava:vv1
+
+```
+
+
+### creating containers
+
+```
+10104  docker  run -dit  --name ashujc1  ashujava:vv1  
+10105  docker  ps
+10106  docker  logs  -f  ashujc1 
+❯ docker ps
+CONTAINER ID   IMAGE             COMMAND                  CREATED              STATUS              PORTS     NAMES
+ebfe25e8cd05   keerthijava:vv1   "java hello"             27 seconds ago       Up 15 seconds                 keerthic1
+e4139cdd9313   ashujava:vv1      "java myclass"           54 seconds ago       Up 43 seconds                 ashujc1
+21f0f0b7e0e5   anuragjava:v11    "java myclass"           About a minute ago   Up About a minute             anuragc3
+eb70f6aae559   gopaljdk:v001     "java myclass"           About a minute ago   Up About a minute             gopalc2
+
+```
+
+## Sharing docker images over the different docker Host 
+
+<img src="share1.png">
+
+## image registry discussion 
+
+<img src="reg.png">
+
+## docker hub and image name reality 
+
+<img src="imgname.png">
+
+## steps to push image on docker hub 
+
+### tagging 
+
+```
+docker  tag   ashudebpy:v001  dockerashu/ashudebpy:v111
+```
+### login to docker hub from docker client machine 
+
+```
+❯ docker login
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: dockerashu
+Password: 
+Login Succeeded
+
+```
+
+### pushing image to docker hub 
+
+```
+❯ docker push  dockerashu/ashudebpy:v111
+The push refers to repository [docker.io/dockerashu/ashudebpy]
+32a477da7692: Pushed 
+87b647b578ef: Pushed 
+18c6382c9c2b: Pushed 
+e2c6ff462357: Mounted from library/debian 
+v111: digest: sha256:6f0e39c022207827bd4cf953b51daed4f7e790f6836f79d98958ba86688e6fcd size: 1155
+
+```
+
+
+
 
   
