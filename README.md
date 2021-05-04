@@ -387,5 +387,26 @@ round-trip min/avg/max = 0.093/2.626/10.063 ms
 
 ```
 
+### connecting & disconnecting container from bridges 
+
+```
+10102  docker run -itd --name x1 --network ashubr1  alpine ping 127.0.0.1
+10103  docker network ls
+10104  docker  network connect  Testb1   x1 
+10105  docker  exec -it  x1 sh 
+❯ docker  network disconnect  Testb1   x1
+
+
+
+```
+# Storage concept in docker 
+
+<img src="st.png">
+
+
+## docker container storage ideas
+
+<img src="contst.png">
+
 
   
