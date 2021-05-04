@@ -301,6 +301,91 @@ Successfully tagged ashuwebapp:oraclev1
 
 <img src="portf2.png">
 
+## Never prefer using docker0 bridge 
+
+<img src="saynotod0.png">
+
+## custom bridge game 
+
+```
+10079  docker  network    create  ashubr1  --subnet  192.168.100.0/24 
+10080  docker  network   ls
+10081  docker run -it --rm  --network  none  alpine sh 
+10082  docker run -it --rm  --network  host   alpine sh 
+❯ docker  network   ls
+NETWORK ID     NAME          DRIVER    SCOPE
+fbb2c2a11b3f   Testb1        bridge    local
+9ab09523a3fa   anshulhttpd   bridge    local
+f9b6d4ae9747   anuragb1      bridge    local
+0758dd9aaee6   ashubr1       bridge    local
+e7382dd86266   bridge        bridge    local
+87e51b407d02   host          host      local
+dde5822b2a51   nandhanw      bridge    local
+ec2c48f04c56   none          null      local
+❯ docker  network   ls
+NETWORK ID     NAME          DRIVER    SCOPE
+fbb2c2a11b3f   Testb1        bridge    local
+ebcdfb194f99   amang99       bridge    local
+aaebf0be5428   ankita        bridge    local
+9ab09523a3fa   anshulhttpd   bridge    local
+f9b6d4ae9747   anuragb1      bridge    local
+0758dd9aaee6   ashubr1       bridge    local
+e7382dd86266   bridge        bridge    local
+87e51b407d02   host          host      local
+b4db080e8b86   nambr1        bridge    local
+dde5822b2a51   nandhanw      bridge    local
+ec2c48f04c56   none          null      local
+b20b02c94c31   yyashbr1      bridge    local
+❯ docker  run -itd --name ashuc111  --network ashubr1  alpine ping 127.0.0.1
+0e8fdf340650a400bfaec6abf34cad573502cd84d0374bef783f0829bba8d5b3
+❯ docker  run -itd --name ashuc222 --network ashubr1 --ip 192.168.100.30  alpine ping 127.0.0.1
+c4ec7761ec2eca4bc806999470fdcece1bf644864228ef92a440ba1d7262e978
+
+```
+
+
+## checking connection 
+
+```
+❯ docker  exec -it  ashuc111 sh
+/ # ifconfig 
+eth0      Link encap:Ethernet  HWaddr 02:42:C0:A8:64:02  
+          inet addr:192.168.100.2  Bcast:192.168.100.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:16 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:1312 (1.2 KiB)  TX bytes:0 (0.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:304 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:304 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:25536 (24.9 KiB)  TX bytes:25536 (24.9 KiB)
+
+/ # ping 192.168.100.30
+PING 192.168.100.30 (192.168.100.30): 56 data bytes
+64 bytes from 192.168.100.30: seq=0 ttl=255 time=0.121 ms
+64 bytes from 192.168.100.30: seq=1 ttl=255 time=0.089 ms
+^C
+--- 192.168.100.30 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.089/0.105/0.121 ms
+/ # ping ashuc222
+PING ashuc222 (192.168.100.30): 56 data bytes
+64 bytes from 192.168.100.30: seq=0 ttl=255 time=0.128 ms
+64 bytes from 192.168.100.30: seq=1 ttl=255 time=0.093 ms
+64 bytes from 192.168.100.30: seq=2 ttl=255 time=10.063 ms
+64 bytes from 192.168.100.30: seq=3 ttl=255 time=0.221 ms
+^C
+--- ashuc222 ping statistics ---
+4 packets transmitted, 4 packets received, 0% packet loss
+round-trip min/avg/max = 0.093/2.626/10.063 ms
+/ # 
+
+```
 
 
   
