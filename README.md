@@ -261,6 +261,45 @@ ashucc112   ashuwebapp   v009   44148ee55369   352.1 MB
 
 ```
 
+# Docker Engine is not good for production grade application deployment 
+
+<img src="deprob.png">
+
+## contrainer orchestration tools / tech 
+
+<img src="corch.png">
+
+# K8s 
+
+## architecture of k8s 
+
+<img src="arch1.png">
+
+## kube-apiserver 
+
+<img src="kubeapi.png">
+
+## kube-schedular 
+
+<img src="schedu.png">
+
+##  few info about kube-controller-manager
+
+<img src="kubecont.png">
+
+
+## replication controller 
+
+<img src="rc.png">
+
+## Node controller 
+
+<img src="nc.png">
+
+## ETCD 
+
+<img src="etcd.png">
+
 
 
 
