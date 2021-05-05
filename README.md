@@ -315,5 +315,75 @@ ashucc112   ashuwebapp   v009   44148ee55369   352.1 MB
 
 <img src="k8ss.png">
 
+# k8s cluster deployment options 
 
+<img src="cluster.png">
+
+## just installing minikube software  {MInikube is just an installer of k8s cluster in your pc/laptop}
+
+```
+❯ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 59.6M  100 59.6M    0     0  2998k      0  0:00:20  0:00:20 --:--:-- 2552k
+❯ sudo install minikube-darwin-amd64 /usr/local/bin/minikube
+Password:
+❯ minikube version
+minikube version: v1.19.0
+commit: 15cede53bdc5fe242228853e737333b09d4336b5
+
+```
+
+
+### checking connection from client to master 
+
+```
+❯ kubectl   cluster-info   --kubeconfig admin.conf
+Kubernetes control plane is running at https://54.243.78.205:6443
+CoreDNS is running at https://54.243.78.205:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+❯ kubectl   version    --kubeconfig admin.conf
+Client Version: version.Info{Major:"1", Minor:"21", GitVersion:"v1.21.0", GitCommit:"cb303e613a121a29364f75cc67d3d580833a7479", GitTreeState:"clean", BuildDate:"2021-04-08T16:31:21Z", GoVersion:"go1.16.1", Compiler:"gc", Platform:"darwin/amd64"}
+Server Version: version.Info{Major:"1", Minor:"21", GitVersion:"v1.21.0", GitCommit:"cb303e613a121a29364f75cc67d3d580833a7479", GitTreeState:"clean", BuildDate:"2021-04-08T16:25:06Z", GoVersion:"go1.16.1", Compiler:"gc", Platform:"linux/amd64"}
+❯ kubectl   get  nodes   --kubeconfig admin.conf
+NAME                            STATUS   ROLES                  AGE     VERSION
+ip-172-31-72-151.ec2.internal   Ready    <none>                 7h39m   v1.21.0
+k8s-master                      Ready    control-plane,master   7h41m   v1.21.0
+k8s-minion2                     Ready    <none>                 7h39m   v1.21.0
+
+```
+
+## understanding application deployment 
+
+<img src="appdep.png">
+
+## understanding journey from container to pod
+
+<img src="c2pod.png">
+
+## understanding pod design using docker compose 
+
+<img src="podsg.png">
+
+### Deployment of first pod 
+
+```
+❯ ls
+ashupod1.yaml
+❯ kubectl  apply  -f  ashupod1.yaml
+pod/ashupod-1 created
+❯ kubectl   get   pods
+NAME          READY   STATUS              RESTARTS   AGE
+amanpod-1     0/1     ContainerCreating   0          2s
+ashupod-1     1/1     Running             0          10s
+nandhapod-1   1/1     Running             0          3s
+❯ kubectl   get   pods
+NAME          READY   STATUS    RESTARTS   AGE
+amanpod-1     1/1     Running   0          20s
+ashupod-1     1/1     Running   0          28s
+nandhapod-1   1/1     Running   0          21s
+ypod-1        1/1     Running   0          8s
+
+```
 
