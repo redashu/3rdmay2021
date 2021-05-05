@@ -1,0 +1,12 @@
+version: '3.8'
+networks: 
+  ashubrx999:
+services:
+  ashuwebapp:
+    image: ashuwebapp:v009
+    build: . # location of dockerfile
+    container_name: ashucc112
+    networks:
+      - ashubrx999
+    ports:
+      - "8811:80" 
