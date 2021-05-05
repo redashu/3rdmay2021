@@ -301,5 +301,19 @@ ashucc112   ashuwebapp   v009   44148ee55369   352.1 MB
 <img src="etcd.png">
 
 
+# MInion nodes 
+
+## container networking options 
+
+<img src="cnet.png">
+
+## minion in one shot 
+
+<img src="minion.png">
+
+## final k8s architecture overview 
+
+<img src="k8ss.png">
+
 
 
