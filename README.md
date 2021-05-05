@@ -156,6 +156,111 @@ abf8ec94d5a945524bfdd267628ece4a62bf8a66c66ddd50a6746a2207a25983
 
 ```
 
+## Best practise to containerize 
+
+<img src="bp.png">
+
+# Docker compose 
+
+<img src="compose.png">
+
+
+## checking docker compose file version history 
+
+[compose_file_version](https://docs.docker.com/compose/compose-file/)
+
+
+### sample compose file 
+
+<img src="compose1.png">
+
+### deploy first compose file 
+
+```
+❯ cd  compose1
+❯ ls
+docker-compose.yaml
+❯ docker-compose  up  -d
+Creating network "compose1_ashubr123" with the default driver
+Creating volume "compose1_ashuvol007" with default driver
+Creating ashucxv123 ... done
+❯ docker-compose  ps
+   Name        Command     State   Ports
+----------------------------------------
+ashucxv123   ping fb.com   Up           
+
+```
+
+### more commands on compose 
+
+```
+10077  docker-compose  up  -d 
+10078  docker-compose  ps
+10079  docker-compose  logs 
+❯ docker-compose  ps
+ Name      Command     State   Ports
+------------------------------------
+anshul   ping fb.com   Up           
+❯ docker-compose  kill
+Killing anshul ... done
+❯ docker-compose  ps
+ Name      Command      State     Ports
+---------------------------------------
+anshul   ping fb.com   Exit 137        
+❯ docker-compose  start
+Starting ashusampleapp1 ... done
+❯ docker-compose  ps
+ Name      Command     State   Ports
+------------------------------------
+anshul   ping fb.com   Up           
+❯ docker-compose  down
+Stopping anshul ... done
+WARNING: Found orphan containers (gopalcxv123, testappcon, namc0) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up.
+Removing anshul ... done
+Removing network compose1_ashubr123
+
+```
+
+### building and creation contaier
+
+```
+❯ cd  webapp
+❯ ls
+Dockerfile         ashu.html          docker-compose.yml docker.png
+❯ docker-compose up  -d
+Creating network "webapp_ashubrx999" with the default driver
+WARNING: Found orphan containers (nandhawebcon1) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up.
+Building ashuwebapp
+Sending build context to Docker daemon  67.07kB
+
+Step 1/6 : FROM oraclelinux:8.3
+ ---> 816d99f0bbe8
+Step 2/6 : MAINTAINER ashutoshh@linux.com
+ ---> Using cache
+ ---> dae5c4457196
+Step 3/6 : RUN dnf install httpd -y
+ ---> Running in b60f86b22244
+Oracle Linux 8 BaseOS Latest (x86_64)           8.3 MB/s |  32 MB     00:03    
+
+
+```
+
+### checking more 
+
+```
+10092  docker-compose up  -d
+10093  docker network  ls
+❯ docker-compose ps
+  Name                 Command              State          Ports        
+------------------------------------------------------------------------
+ashucc112   /bin/sh -c httpd -DFOREGROUND   Up      0.0.0.0:8811->80/tcp
+❯ docker-compose images
+Container   Repository   Tag      Image Id       Size  
+-------------------------------------------------------
+ashucc112   ashuwebapp   v009   44148ee55369   352.1 MB
+
+```
+
 
 
 
