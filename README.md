@@ -427,6 +427,90 @@ ashurc-1-qcdjg   1/1     Running   0          5s
 
 ```
 
+## MInikube based cluster 
+
+```
+❯ minikube  start  --driver=docker
+😄  minikube v1.19.0 on Darwin 11.2.3
+✨  Using the docker driver based on existing profile
+👍  Starting control plane node minikube in cluster minikube
+🚜  Pulling base image ...
+    > gcr.io/k8s-minikube/kicbase...: 357.67 MiB / 357.67 MiB  100.00% 2.39 MiB
+🤷  docker "minikube" container is missing, will recreate.
+🔥  Creating docker container (CPUs=2, Memory=1989MB) ...
+🐳  Preparing Kubernetes v1.20.2 on Docker 20.10.5 ...
+🔎  Verifying Kubernetes components...
+    ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
+🌟  Enabled addons: storage-provisioner, default-storageclass
+🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+❯ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+```
+
+## Understanding context 
+
+```
+❯ kubectl   config  get-contexts
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   ashuspace
+          minikube                      minikube     minikube           default
+          testcontext                   minikube     test-user          
+
+░▒▓ ~/Desktop/mycodes/k8s ···················································· kubernetes-admin@kubernetes/ashuspace ⎈  04:45:32 PM ▓▒░─╮
+❯ kubectl config use-context kubernetes-admin@kubernetes                                                                                  ─╯
+
+
+```
+
+# Introduction to deployment 
+
+<img src="dep.png">
+
+## Reality of deployment 
+
+<img src="depreal.png">
+
+## creating deployment 
+
+```
+ kubectl  create  deployment  ashudeploy1  --image=dockerashu/oraclweb:may62021v1  --dry-run=client -o yaml  >ashudep.yml
+ 
+ ```
+ 
+ ###
+ 
+ ```
+ ❯ ls
+ashudep.yml   ashupod1.yaml ashurc.yaml   ashusvc1.yaml pod1.json     webpod1.yaml
+❯ kubectl  apply -f  ashudep.yml
+deployment.apps/ashudeploy1 created
+❯ kubectl  get  deployment
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashudeploy1   1/1     1            1           7s
+❯ kubectl  get  deploy
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashudeploy1   1/1     1            1           12s
+❯ kubectl  get  rs
+NAME                     DESIRED   CURRENT   READY   AGE
+ashudeploy1-7b8874b7d8   1         1         1       22s
+❯ kubectl  get  po
+NAME                           READY   STATUS    RESTARTS   AGE
+ashudeploy1-7b8874b7d8-r8qv5   1/1     Running   0          26s
+ashupod-1                      1/1     Running   0          134m
+
+```
+
+
+## Auto match label of pod to the service by expose 
+
+<img src="expose.png">
+
 
 
 
