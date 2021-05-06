@@ -228,6 +228,134 @@ status:
 
 <img src="npdep.png">
 
+###  listing pod and service both 
+
+```
+❯ kubectl  get  pod,svc
+NAME                  READY   STATUS    RESTARTS   AGE
+pod/amanmultiwebpod   1/1     Running   0          3h8m
+pod/anshul-1          1/1     Running   0          3h19m
+pod/ashupod-1         1/1     Running   0          3h15m
+pod/ashuwebpod        1/1     Running   1          3h23m
+pod/hatwebpod         1/1     Running   0          3h22m
+pod/keerthiwebpod     1/1     Running   0          3h14m
+pod/kptwebpod         1/1     Running   0          3h21m
+pod/namwebpod1        1/1     Running   0          3h12m
+pod/nandhawebpod      1/1     Running   0          3h21m
+pod/nihawebpod        1/1     Running   0          3h11m
+pod/richikpod         1/1     Running   0          3h22m
+pod/yyashwebpod       1/1     Running   0          3h19m
+
+NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/amansrv1      NodePort    10.108.136.63    <none>        1234:30116/TCP   95m
+service/anshulc1      NodePort    10.96.239.214    <none>        1234:30658/TCP   93m
+service/ashusvc1      NodePort    10.97.170.252    <none>        1234:32137/TCP   95m
+service/hatser1       NodePort    10.97.80.169     <none>        1234:31445/TCP   94m
+service/keerthisvc1   NodePort    10.104.106.150   <none>        1234:30501/TCP   94m
+service/kubernetes    ClusterIP   10.96.0.1        <none>        443/TCP          29h
+service/namsvc1       NodePort    10.97.12.110
+
+```
+
+### deleting pod and service 
+
+```
+❯ kubectl  delete all --all
+pod "amanmultiwebpod" deleted
+pod "anshul-1" deleted
+pod "ashupod-1" deleted
+pod "ashuwebpod" deleted
+pod "hatwebpod" deleted
+pod "keerthiwebpod" deleted
+pod "kptwebpod" deleted
+pod "namwebpod1" deleted
+pod "nandhawebpod" deleted
+pod "nihawebpod" deleted
+pod "richikpod" deleted
+pod "yyashwebpod" deleted
+service "amansrv1" deleted
+service "anshulc1" deleted
+service "ashusvc1" deleted
+service "hatser1" deleted
+service "keerthisvc1" deleted
+service "kubernetes" deleted
+service "namsvc1" deleted
+service "nandhasvc1" deleted
+service "nihasvc1" deleted
+
+```
+
+# Namespace introduction 
+
+<img src="ns.png">
+
+## default namespaces in k8s
+
+<img src="nsd.png">
+
+## checking k8s components
+
+```
+❯ kubectl  get  pods  -n kube-system
+NAME                                      READY   STATUS    RESTARTS   AGE
+calico-kube-controllers-b656ddcfc-bqm8f   1/1     Running   2          29h
+calico-node-p557r                         1/1     Running   2          29h
+calico-node-ptcwm                         1/1     Running   2          29h
+calico-node-r7l5j                         1/1     Running   2          29h
+coredns-558bd4d5db-2f6n9                  1/1     Running   2          29h
+coredns-558bd4d5db-lsqnp                  1/1     Running   2          29h
+etcd-k8s-master                           1/1     Running   2          29h
+kube-apiserver-k8s-master                 1/1     Running   2          29h
+kube-controller-manager-k8s-master        1/1     Running   2          29h
+kube-proxy-47q8j                          1/1     Running   2          29h
+kube-proxy-5pgkq                          1/1     Running   2          29h
+kube-proxy-mhv9p                          1/1     Running   2          29h
+kube-scheduler-k8s-master                 1/1     Running   2          29h
+
+```
+
+
+## creating custom namespaces 
+
+```
+❯ kubectl   create  namespace  ashuspace
+namespace/ashuspace created
+❯ kubectl   get   ns
+NAME              STATUS   AGE
+ashuspace         Active   7s
+default           Active   29h
+kube-node-lease   Active   29h
+kube-public       Active   29h
+kube-system       Active   29h
+
+```
+
+## deploying in your custom namespaces 
+
+```
+❯ kubectl  apply -f  ashupod1.yaml -n ashuspace
+pod/ashupod-1 created
+❯ kubectl  get  pods
+No resources found in default namespace.
+❯ kubectl  get  pods  -n ashuspace
+NAME        READY   STATUS    RESTARTS   AGE
+ashupod-1   1/1     Running   0          14s
+❯ kubectl  delete pod  ashupod-1  -n ashuspace
+pod "ashupod-1" deleted
+❯ kubectl  get  pods  -n ashuspace
+No resources found in ashuspace namespace.
+
+```
+
+## changing default namespace 
+
+```
+ kubectl   config  set-context --current  --namespace=ashuspace
+ 
+ ```
+ 
+ <img src="defaultns.png">
+ 
 
 
 
