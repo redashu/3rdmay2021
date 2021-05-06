@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+ name: ashurc-1  # name of RC 
+ namespace: ashuspace # namespace info (optional)
+spec: 
+ replicas: 2  # no of pod we want to deploy 
+ template: # RC will use template to create POD 
+  metadata:
+   labels: # label of pod 
+    x1: hello1ashu 
+  spec: 
+   containers:
+   - image: dockerashu/oraclweb:may62021v1
+     name: ashuc1 
+     ports:
+     - containerPort: 80
+     env: 
+     - name: x
+       value: app2 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: ashusvc123
+ namespace: ashuspace
+spec:
+ ports:
+ - name: port1
+   port: 1234
+   protocol: TCP 
+   targetPort: 80
+ selector: 
+  x1: hello1ashu 
+ type: NodePort 
+  
