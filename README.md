@@ -143,6 +143,92 @@ status: {}
 10121  kubectl  run ashuwebpod   --image=dockerashu/oraclweb:may62021v1   --port 80  --dry-run=client -o json 
 ❯ kubectl  run ashuwebpod   --image=dockerashu/oraclweb:may62021v1   --port 80  --dry-run=client -o yaml   >webpod1.yaml
 
+```
+
+### Deploying app 
+
+```
+❯ kubectl  apply -f  webpod1.yaml --dry-run=client
+pod/ashuwebpod created (dry run)
+❯ kubectl  apply -f  webpod1.yaml
+pod/ashuwebpod created
+❯ kubectl  get  pods
+NAME         READY   STATUS             RESTARTS   AGE
+ashuwebpod   1/1     Running            0          5s
+
+```
+
+### common troubleshooting 
+
+<img src="trouble.png">
+
+## access web app running in k8s cluster 
+
+### case 1 when you are it self kubernetes client --
+
+```
+ kubectl  port-forward   ashuwebpod  1234:80
+Forwarding from 127.0.0.1:1234 -> 80
+Forwarding from [::1]:1234 -> 80
+Handling connection for 1234
+Handling connection for 1234
+
+
+```
+
+## problems with pod networking in term of end user accessment 
+
+<img src="podnet.png">
+
+## introduction service 
+
+### service gonna use label of pod to find out their information and then forward traffic over there
+
+<img src="service.png">
+
+### labels to pod 
+
+<img src="podlb.png">
+
+## service type in k8s
+
+<img src="stype.png">
+
+## nodeport service type 
+
+<img src="nodeport.png">
+
+### creating nodeport service 
+
+```
+❯ kubectl   create  service  nodeport  ashusvc1  --tcp  1234:80  --dry-run=client -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashusvc1
+  name: ashusvc1
+spec:
+  ports:
+  - name: 1234-80
+    port: 1234
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ashusvc1
+  type: NodePort
+status:
+  loadBalancer: {}
+❯ kubectl   create  service  nodeport  ashusvc1  --tcp  1234:80  --dry-run=client -o yaml  >ashusvc1.yaml
+
+```
+
+### deploying nodeport service type 
+
+<img src="npdep.png">
+
+
 
 
 
