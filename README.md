@@ -356,6 +356,76 @@ No resources found in ashuspace namespace.
  
  <img src="defaultns.png">
  
+# Replication controller 
+
+<img src="rc.png">
+
+## RC
+
+<img src="rc1.png">
+
+## deployment of RC 
+
+```
+❯ ls
+ashupod1.yaml ashurc.yaml   ashusvc1.yaml pod1.json     webpod1.yaml
+❯ kubectl  apply  -f  ashurc.yaml
+replicationcontroller/ashurc-1 created
+service/ashusvc123 created
+❯ kubectl   get   rc
+NAME       DESIRED   CURRENT   READY   AGE
+ashurc-1   1         1         1       7s
+❯ kubectl   get   svc
+NAME         TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+ashusvc123   NodePort   10.111.49.87   <none>        1234:30913/TCP   10s
+❯ kubectl   get   rc
+NAME       DESIRED   CURRENT   READY   AGE
+ashurc-1   1         1         1       15s
+❯ kubectl   get   pod
+NAME             READY   STATUS    RESTARTS   AGE
+ashupod-1        1/1     Running   0          34m
+ashurc-1-xpspx   1/1     Running   0          20s
+
+```
+
+## if pod goes down RC will take care
+
+```
+❯ kubectl  get  rc
+NAME       DESIRED   CURRENT   READY   AGE
+ashurc-1   1         1         1       9m14s
+❯ kubectl  get  po
+NAME             READY   STATUS    RESTARTS   AGE
+ashupod-1        1/1     Running   0          43m
+ashurc-1-xpspx   1/1     Running   0          9m18s
+❯ kubectl  get  po  -o  wide
+NAME             READY   STATUS    RESTARTS   AGE     IP                NODE                            NOMINATED NODE   READINESS GATES
+ashupod-1        1/1     Running   0          43m     192.168.27.224    k8s-minion2                     <none>           <none>
+ashurc-1-xpspx   1/1     Running   0          9m23s   192.168.207.226   ip-172-31-72-151.ec2.internal   <none>           <none>
+❯ kubectl  delete  pod ashurc-1-xpspx
+pod "ashurc-1-xpspx" deleted
+❯ kubectl  get  po  -o  wide
+NAME             READY   STATUS    RESTARTS   AGE   IP               NODE          NOMINATED NODE   READINESS GATES
+ashupod-1        1/1     Running   0          44m   192.168.27.224   k8s-minion2   <none>           <none>
+ashurc-1-b5tq5   1/1     Running   0          44s   192.168.27.233   k8s-minion2   <none>           <none>
+
+```
+
+### manual scaling 
+
+```
+❯ kubectl  scale  rc  ashurc-1  --replicas=5
+replicationcontroller/ashurc-1 scaled
+❯ kubectl  get  po
+NAME             READY   STATUS    RESTARTS   AGE
+ashupod-1        1/1     Running   0          49m
+ashurc-1-5tvbp   1/1     Running   0          109s
+ashurc-1-8sq6z   1/1     Running   0          5s
+ashurc-1-b5tq5   1/1     Running   0          6m29s
+ashurc-1-khlfm   1/1     Running   0          5s
+ashurc-1-qcdjg   1/1     Running   0          5s
+
+```
 
 
 
