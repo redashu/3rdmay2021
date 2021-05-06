@@ -1,0 +1,28 @@
+{
+    "kind": "Pod",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "ashuwebpod",
+        "creationTimestamp": null,
+        "labels": {
+            "run": "ashuwebpod"
+        }
+    },
+    "spec": {
+        "containers": [
+            {
+                "name": "ashuwebpod",
+                "image": "dockerashu/oraclweb:may62021v1",
+                "ports": [
+                    {
+                        "containerPort": 80
+                    }
+                ],
+                "resources": {}
+            }
+        ],
+        "restartPolicy": "Always",
+        "dnsPolicy": "ClusterFirst"
+    },
+    "status": {}
+}
