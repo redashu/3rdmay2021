@@ -111,5 +111,70 @@ ashuwebapp1-84889dcbf-wls6f   1/1     Running   0          13s
 <img src="e2e.png">
 
 
+## rolling updates 
+
+<img src="rolling.png">
+
+## UPgrading. application 
+
+### checking existing docker image version in deployment 
+
+```
+❯ kubectl  describe  deploy  ashuwebapp1
+Name:                   ashuwebapp1
+Namespace:              ashuspace
+CreationTimestamp:      Fri, 07 May 2021 10:56:12 +0530
+Labels:                 app=ashuwebapp1
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=ashuwebapp1
+Replicas:               3 desired | 3 updated | 3 total | 3 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=ashuwebapp1
+  Containers:
+   nginxor:
+    Image:        dockerashu/nginxor:v11
+    
+```
+
+### updataing image after build in deployment 
+
+```
+kubectl  set  image  deployment  ashuwebapp1  nginxor=dockerashu/nginxor:v22
+deployment.apps/ashuwebapp1 image updated
+
+```
+
+### checking rolling updates
+
+```
+❯ kubectl  get  deploy
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashuwebapp1   3/3     3            3           70m
+❯ kubectl  get  po
+NAME                          READY   STATUS    RESTARTS   AGE
+ashuwebapp1-8c996979f-7sxdx   1/1     Running   0          59s
+ashuwebapp1-8c996979f-dvrld   1/1     Running   0          61s
+ashuwebapp1-8c996979f-fm9mp   1/1     Running   0          64s
+
+```
+
+### few more commands for k8s 
+
+```
+10128  kubectl  describe  deploy  ashuwebapp1 
+10129  history
+10130* kubectl  describe  deploy  ashuwebapp1 
+10131  kubectl  set  image  deployment  ashuwebapp1  nginxor=dockerashu/nginxor:v22
+10132* kubectl  describe  deploy  ashuwebapp1 
+10133  kubectl  get  deploy 
+10134  kubectl  get  po
+10135  kubectl  exec -it ashuwebapp1-8c996979f-7sxdx  -- bash 
+❯ kubectl  rollout  undo  deployment ashuwebapp1
+deployment.apps/ashuwebapp1 rolled back
+
+```
 
 
