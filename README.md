@@ -273,5 +273,148 @@ PING fb.com (157.240.229.35): 56 data bytes
 
 ```
 
+## Storage in k8s 
+
+<img src="storage.png">
+
+### storage options 
+
+[k8s_volumes](https://kubernetes.io/docs/concepts/storage/volumes/)
+
+### cleaning up namespace 
+
+```
+❯ kubectl  get  all
+NAME                              READY   STATUS    RESTARTS   AGE
+pod/ashupodx1                     1/1     Running   0          120m
+pod/ashuwebapp1-84889dcbf-cm8zt   1/1     Running   0          164m
+pod/ashuwebapp1-84889dcbf-fkr78   1/1     Running   0          164m
+pod/ashuwebapp1-84889dcbf-rxghx   1/1     Running   0          164m
+
+NAME                 TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+service/ashulbsvc1   LoadBalancer   10.101.47.127   <pending>     1244:32122/TCP   3h30m
+service/x1ashuc1     NodePort       10.109.100.43   <none>        9090:30596/TCP   3h59m
+
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/ashuwebapp1   3/3     3            3           4h
+
+NAME                                    DESIRED   CURRENT   READY   AGE
+replicaset.apps/ashuwebapp1-84889dcbf   3         3         3       4h
+replicaset.apps/ashuwebapp1-8c996979f   0         0         0       170m
+❯ kubectl  delete all --all
+pod "ashupodx1" deleted
+pod "ashuwebapp1-84889dcbf-cm8zt" deleted
+pod "ashuwebapp1-84889dcbf-fkr78" deleted
+pod "ashuwebapp1-84889dcbf-rxghx" deleted
+service "ashulbsvc1" deleted
+service "x1ashuc1" deleted
+deployment.apps "ashuwebapp1" deleted
+
+
+```
+## Creating deployment with emptyDir volume type 
+
+```
+kubectl  create  deployment   ashudep111   --image=alpine  --namespace ashuspace --dry-run=client -o yaml  >empvol.yml
+
+```
+
+### understanding volume creation and mounting 
+
+<img src="volmount.png">
+
+### checking file system of running pod 
+
+```
+❯ kubectl  apply  -f  empvol.yml
+deployment.apps/ashudep111 created
+❯ kubectl  get  deploy
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+ashudep111   1/1     1            1           7s
+❯ kubectl  get   po
+NAME                         READY   STATUS    RESTARTS   AGE
+ashudep111-899dd4d84-jwzjk   1/1     Running   0          14s
+❯ kubectl  exec -it  ashudep111-899dd4d84-jwzjk   -- sh
+/ # cd  /mnt/oracle/
+/mnt/oracle # ls
+time.txt
+/mnt/oracle # cat time.txt 
+Fri May  7 09:46:52 UTC 2021
+Fri May  7 09:46:55 UTC 2021
+Fri May  7 09:46:58 UTC 2021
+Fri May  7 09:47:01 UTC 2021
+Fri May  7 09:47:04 UTC 2021
+Fri May  7 09:47:07 UTC 2021
+
+```
+
+## side-car design pattern in k8s 
+
+<img src="sidecar.png">
+
+## accessing multiple container in the pod 
+
+```
+❯ kubectl  apply -f  empvol.yml
+deployment.apps/ashudep111 configured
+❯ kubectl  get  deploy
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+ashudep111   1/1     1            1           22m
+❯ kubectl  get  po
+NAME                          READY   STATUS        RESTARTS   AGE
+ashudep111-6c5c56d58b-spqzs   2/2     Running       0          29s
+ashudep111-899dd4d84-jwzjk    1/1     Terminating   0          22m
+❯ kubectl  get  po
+NAME                          READY   STATUS    RESTARTS   AGE
+ashudep111-6c5c56d58b-spqzs   2/2     Running   0          59s
+❯ kubectl  exec -it ashudep111-6c5c56d58b-spqzs   -- sh
+Defaulted container "ashuc1" out of: ashuc1, alpine
+# 
+❯ kubectl  exec -it ashudep111-6c5c56d58b-spqzs -c  alpine   -- sh
+/ # exit
+❯ kubectl  exec -it ashudep111-6c5c56d58b-spqzs -c  ashuc1  -- bash
+root@ashudep111-6c5c56d58b-spqzs:/# cd /usr/share/nginx/html/
+root@ashudep111-6c5c56d58b-spqzs:/usr/share/nginx/html# ls
+time.txt
+root@ashudep111-6c5c56d58b-spqzs:/usr/share/nginx/html# exit
+exit
+
+```
+
+## few more commands 
+
+```
+10170  kubectl  create  deployment   ashudep111   --image=alpine  --dry-run=client -o yaml  >empvol.yml
+10171  kubectl  create  deployment   ashudep111   --image=alpine  --namespace ashuspace --dry-run=client -o yaml  >empvol.yml
+10172  ls
+10173  kubectl  apply  -f  empvol.yml
+10174  kubectl  get  deploy 
+10175  kubectl  get   po 
+10176  kubectl  exec -it  ashudep111-899dd4d84-jwzjk   -- sh 
+10177  history
+10178  kubectl  get  po 
+10179  kubectl  get  deploy 
+10180  ls
+10181  kubectl  apply -f  empvol.yml
+10182  kubectl  get  deploy  
+10183  kubectl  get  po
+10184  kubectl  exec -it ashudep111-6c5c56d58b-spqzs   -- sh 
+10185  kubectl  exec -it ashudep111-6c5c56d58b-spqzs -c  alpine   -- sh 
+10186  kubectl  exec -it ashudep111-6c5c56d58b-spqzs -c  ashuc1  -- bash 
+
+```
+
+### exposing service 
+
+```
+kubectl  expose deployment ashudep111  --type NodePort --port 1122 --target-port 80 --name  x1svc
+service/x1svc exposed
+❯ kubectl  get  svc
+NAME    TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+x1svc   NodePort   10.102.54.111   <none>        1122:31529/TCP   5s
+
+```
+
+
 
 
