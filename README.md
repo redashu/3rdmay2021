@@ -176,5 +176,102 @@ ashuwebapp1-8c996979f-fm9mp   1/1     Running   0          64s
 deployment.apps/ashuwebapp1 rolled back
 
 ```
+## Deploying private registry images in k8s 
+
+### pushing image in ACR 
+
+```
+❯ docker  tag alpine:latest   oracle.azurecr.io/alpine:v1
+❯ 
+❯ docker  login  oracle.azurecr.io   -u  oracle
+Password: 
+Login Succeeded
+❯ docker push  oracle.azurecr.io/alpine:v1
+The push refers to repository [oracle.azurecr.io/alpine]
+b2d5eeeaba3a: Pushed 
+v1: digest: sha256:def822f9851ca422481ec6fee59a9966f12b351c62ccb9aca841526ffaa9f748 size: 528
+❯ docker  logout   oracle.azurecr.io
+Removing login credentials for oracle.azurecr.io
+
+```
+
+### creating pod/depoyment 
+
+```
+kubectl   run   ashupodx1  --image=oracle.azurecr.io/alpine:v1   --dry-run=client  -o  yaml  >acrpod.yml
+
+```
+
+### got an error 
+
+```
+ kubectl  apply -f  acrpod.yml
+ ❯ kubectl  get  po
+NAME                          READY   STATUS             RESTARTS   AGE
+ashupodx1                     0/1     ImagePullBackOff   0          2m11s
+
+```
+
+# Introduction to secret 
+
+<img src="secret.png">
+
+## creating secret 
+
+```
+❯ kubectl  create secret   docker-registry  ashuimgsec  --docker-server oracle.azurecr.io  --docker-username oracle --docker-password 1PmmRn7uDMRtVamX9 -n ashuspace
+secret/ashuimgsec created
+❯ kubectl  get  secret
+NAME                  TYPE                                  DATA   AGE
+ashuimgsec            kubernetes.io/dockerconfigjson        1      21s
+
+```
+
+### updating image pull secret
+
+```
+❯ kubectl apply -f  acrpod.yml
+error: error validating "acrpod.yml": error validating data: ValidationError(Pod.spec): unknown field "imagePullSecret" in io.k8s.api.core.v1.PodSpec; if you choose to ignore these errors, turn validation off with --validate=false
+❯ kubectl apply -f  acrpod.yml
+The Pod "ashupodx1" is invalid: spec: Forbidden: pod updates may not change fields other than `spec.containers[*].image`, `spec.initContainers[*].image`, `spec.activeDeadlineSeconds` or `spec.tolerations` (only additions to existing tolerations)
+  core.PodSpec{
+  	... // 11 identical fields
+  	NodeName:         "k8s-minion2",
+  	SecurityContext:  &{},
+- 	ImagePullSecrets: []core.LocalObjectReference{{Name: "ashuimgsec"}},
++ 	ImagePullSecrets: nil,
+  	Hostname:         "",
+  	Subdomain:        "",
+  	... // 14 identical fields
+  }
+
+❯ kubectl replace -f  acrpod.yml --force
+pod "ashupodx1" deleted
+pod/ashupodx1 replaced
+
+```
+
+### checking logs 
+
+```
+❯ kubectl replace -f  acrpod.yml --force
+pod "ashupodx1" deleted
+pod/ashupodx1 replaced
+❯ kubectl  get  po
+NAME                          READY   STATUS    RESTARTS   AGE
+ashupodx1                     1/1     Running   0          7s
+ashuwebapp1-84889dcbf-cm8zt   1/1     Running   0          43m
+ashuwebapp1-84889dcbf-fkr78   1/1     Running   0          43m
+ashuwebapp1-84889dcbf-rxghx   1/1     Running   0          43m
+❯ kubectl  logs  ashupodx1
+PING fb.com (157.240.229.35): 56 data bytes
+64 bytes from 157.240.229.35: seq=0 ttl=50 time=0.750 ms
+64 bytes from 157.240.229.35: seq=1 ttl=50 time=1.389 ms
+64 bytes from 157.240.229.35: seq=2 ttl=50 time=0.790 ms
+64 bytes from 157.240.229.35: seq=3 ttl=50 time=0.769 ms
+64 bytes from 157.240.229.35: seq=4 ttl=50 time=0.793 ms
+
+```
+
 
 
