@@ -1,0 +1,14 @@
+apiVersion: v1 
+kind: Pod 
+metadata: # info about pod 
+ namespace: ashuspace  # namespace info 
+ name: ashupod-1  # name of my pod
+ labels: # my pod label 
+  x: hiashu  
+spec:  # info about containers 
+ containers: 
+ - name: ashuc1  # first container name  
+   image: nginx # first container image name 
+   ports:
+   - containerPort: 80 # application port of nginx container 
+ 

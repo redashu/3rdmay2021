@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuwebapp1
+  name: ashuwebapp1
+  namespace: ashuspace # info about your namesapce 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashuwebapp1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashuwebapp1
+    spec:
+      containers:
+      - image: dockerashu/nginxor:v11
+        name: nginxor
+        resources: {}
+status: {}
