@@ -1,2 +1,7 @@
-# TO revise content of docker & kubernetes check branches from day1 to day 5 
+# Welcome to day5 Kubernetes training 
+
+## recap 
+
+<img src="recap.png">
+
 
