@@ -415,6 +415,89 @@ x1svc   NodePort   10.102.54.111   <none>        1122:31529/TCP   5s
 
 ```
 
+## Deployment of mysql DB 
 
+<img src="db.png">
+
+```
+kubectl  create  deployment  ashudb  --image=mysql  --dry-run=client -o yaml >ashudb.yml
+
+```
+
+###  creating secret to store password of mysql DB 
+
+```
+ kubectl   create  secret   generic  ashudbsec  --from-literal   pw=Oracledb1233  -n ashuspace
+secret/ashudbsec created
+
+```
+
+### deploy db 
+
+```
+❯ kubectl  apply -f  ashudb.yml
+deployment.apps/ashudb created
+❯ kubectl  get deploy
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb   0/1     1            0           6s
+❯ kubectl  get  po
+NAME                      READY   STATUS    RESTARTS   AGE
+ashudb-6599df7cd5-lbnz2   1/1     Running   0          11s
+❯ kubectl  get deploy
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb   1/1     1            1           16s
+
+```
+
+
+## service story 
+
+<img src="svcpod.png">
+
+
+### clusterIP service creation 
+
+```
+❯ kubectl  get deploy
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb   1/1     1            1           23m
+❯ kubectl  expose deploy  ashudb  --type ClusterIP  --port 3306  --name  ashudbsvc -n ashuspace
+service/ashudbsvc exposed
+❯ kubectl  get  svc
+NAME        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+ashudbsvc   ClusterIP   10.105.222.28   <none>        3306/TCP   6s
+
+```
+
+### creating webapplication now 
+
+```
+kubectl   create  deployment   ashuwebapp  --image=wordpress:4.8-apache --dry-run=client -o yaml >ashweb.yml
+
+```
+
+```
+❯ kubectl apply -f  ashweb.yml
+deployment.apps/ashuwebapp created
+❯ kubectl  get deploy
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb       1/1     1            1           34m
+ashuwebapp   0/1     1            0           7s
+❯ kubectl  get  po
+NAME                         READY   STATUS    RESTARTS   AGE
+ashudb-6599df7cd5-lbnz2      1/1     Running   0          34m
+ashuwebapp-8bfd7fb64-fqptq   1/1     Running   0          17s
+❯ kubectl  get deploy
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+ashudb       1/1     1            1           34m
+ashuwebapp   1/1     1            1           24s
+❯ kubectl  expose deploy  ashuwebapp  --type NodePort --port 1234 --target-port 80  --name ashuwebappsvc
+service/ashuwebappsvc exposed
+❯ kubectl  get  svc
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+ashudbsvc       ClusterIP   10.105.222.28    <none>        3306/TCP         11m
+ashuwebappsvc   NodePort    10.100.128.176   <none>        1234:30753/TCP   6s
+
+```
 
 
