@@ -5,7 +5,7 @@ metadata: # info about pod
  name: ashupod-1  # name of my pod
  labels: # my pod label 
   x: hiashu  
-spec:  # info about containers 
+spec:   
  containers: 
  - name: ashuc1  # first container name  
    image: nginx # first container image name 

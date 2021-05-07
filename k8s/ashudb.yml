@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashudb
+  name: ashudb
+  namespace: ashuspace # namespace information 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashudb
+  strategy: {}
+  template: # template section 
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashudb
+    spec:
+      volumes: # to create volume 
+      - name: ashudbvol1  # name of volume 
+        nfs:  # using NFS type Storage to create volume 
+         server: 172.31.6.70 # ip of nfs server machine 
+         path: /db/ashu # location where my DB data will be stored 
+      containers:
+      - image: mysql:5.6 # db image   
+        name: mysql # name of container 
+        volumeMounts:
+        - name: ashudbvol1
+          mountPath: /var/lib/mysql/ # location of mysql DB storage 
+        env:
+        - name: MYSQL_ROOT_PASSWORD # pre define env var in docker image
+          valueFrom:
+           secretKeyRef: # calling secret 
+            name: ashudbsec  #  secret name 
+            key: pw # key of above secret 
+         
+        resources: {}
+status: {}

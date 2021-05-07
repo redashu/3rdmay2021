@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuwebapp
+  name: ashuwebapp
+  namespace: ashuspace # entry of Namespace 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashuwebapp
+  strategy: {}
+  template: # Template section 
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashuwebapp
+    spec:
+      containers:
+      - image: wordpress:4.8-apache
+        name: wordpress
+        env: 
+        - name: WORDPRESS_DB_HOST
+          value: ashudbsvc  # DB service name will be used here 
+        - name: WORDPRESS_DB_PASSWORD 
+          valueFrom: # reading database password from k8s secret 
+           secretKeyRef:
+            name: ashudbsec # name of Db secret 
+            key: pw # key of DB secret 
+        resources: {}
+status: {}

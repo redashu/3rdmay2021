@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: ashuspace # name of namespace 
+  creationTimestamp: null
+  labels: # label of my pod 
+    run: ashupodx1
+  name: ashupodx1 # name of POD 
+spec:
+  imagePullSecrets:
+  - name: ashuimgsec # name of secret 
+  containers:
+  - image: oracle.azurecr.io/alpine:v1 # image from ACR 
+    name: ashupodx1
+    command: ["/bin/sh","-c","ping fb.com"] # command is replacement of entrypoint 
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
